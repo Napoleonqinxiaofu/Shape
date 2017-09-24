@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        canvas{
+            border:1px solid gray;
+        }
+    </style>
+    <script src="../src/require.js"></script>
+</head>
+<body>
+<canvas height="250" width="400"></canvas>
+</body>
+<script>
+
+    require.config({
+        baseUrl: "../src/",
+        paths: {
+        }
+    });
+
+    require(['require', 'index', 'Scale/Linear/linear'], function(require) {
+
+        var Shape = require("index");
+        var linear = require("Scale/Linear/linear");
+
+        var areaIns = Shape.Area();
+
+        var context = document.querySelector("canvas").getContext("2d");
+        context.translate(100, 100)
+
+        areaIns.data([
+            {x: 10, y: 10},
+            {x: 20, y: 80},
+            {x: 60, y: 10},
+            {x: 90, y: 60}
+        ]);
+
+        var xScale = linear().domain([0, 100]).range([0, 400]);
+        var yScale = linear().domain([0, 100]).range([0, 200]);
+
+        areaIns.context(context);
+
+        areaIns.curve().x(xScale).y(yScale)
+            .baseY(90).animate(2000).ease("easeOutBounce")
+
+        areaIns.render({
+            lineWidth: 0
+        });
+//        console.log(areaIns)
+    });
+
+</script>
+</html>
