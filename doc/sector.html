@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        canvas{
+            border:1px solid gray;
+        }
+    </style>
+    <script src="../src/require.js"></script>
+</head>
+<body>
+<canvas height="250" width="400"></canvas>
+</body>
+<script>
+
+    require.config({
+        baseUrl: "../src/",
+        paths: {
+        }
+    });
+
+    require(['require', 'index', 'Scale/Linear/linear'], function(require) {
+
+        var Shape = require("index");
+        var linear = require("Scale/Linear/linear");
+
+        var sector = Shape.Arc();
+
+        var context = document.querySelector("canvas").getContext("2d");
+
+        sector.startAngle(0).endAngle(70).innerRadius(30)
+            .outerRadius(100)
+            .center([100, 100])
+            .animate(1000)
+            .render(context);
+
+        var pos = sector.centroid();
+        context.save();
+        context.translate(100, 100);
+        context.fillText("Xiaofu.qin", pos[0], pos[1]);
+        context.restore();
+
+        sector.startAngle(100).endAngle(180).render();
+    });
+
+</script>
+</html>

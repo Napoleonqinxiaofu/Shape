@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        canvas{
+            border:1px solid gray;
+        }
+    </style>
+    <script src="../src/require.js"></script>
+</head>
+<body>
+<canvas height="250" width="400"></canvas>
+</body>
+<script>
+
+    require.config({
+        baseUrl: "../src/",
+        paths: {
+        }
+    });
+
+    require(['require', 'index', 'Scale/Linear/linear'], function(require) {
+
+        var Shape = require("index");
+        var linear = require("Scale/Linear/linear");
+
+        var pie = Shape.Pie();
+
+        var context = document.querySelector("canvas").getContext("2d");
+
+        var data = [
+            {value: 10},
+            {value: 20},
+            {value: 50},
+            {value: 40}
+        ];
+
+        pie.data(data, function(d) {
+            return {value: Math.random() * d.value};
+        })
+            .angle(0, 270, 0)
+            .radius(0, 100)
+            .ease("easeOutCirc")
+            .animate(1000)
+            .context(context)
+            .center([100, 100])
+            .render({
+                lineJoin: "round"
+            });
+
+        Shape.Pie().data(data, function(d) {
+            return {value: Math.random() * d.value};
+        })
+            .angle(0, 270, 0)
+            .radius(0, 100)
+                        .ease("easeOutCirc")
+            .animate(1000)
+            .context(context)
+            .center([300, 100])
+            .render({
+                lineJoin: "round"
+            });
+
+    });
+
+</script>
+</html>
