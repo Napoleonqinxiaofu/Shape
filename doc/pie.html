@@ -55,12 +55,14 @@
         })
             .angle(0, 270, 0)
             .radius(0, 100)
-                        .ease("easeOutCirc")
-            .animate(1000)
+            .ease("easeOutCirc")
+//            .animate(1000)
             .context(context)
             .center([300, 100])
             .render({
-                lineJoin: "round"
+                lineJoin: "round",
+                strokeStyle: "white",
+                lineWidth: 2
             });
 
     });

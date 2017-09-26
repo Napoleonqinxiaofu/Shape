@@ -21,7 +21,7 @@ define(["require", "../common/util", "../canvas/helper", "./data", "../Tween/src
 
         // deal data
         this._points = dataUtil.dealData(this, this._points, this._dataAccessor);
-        this._curveMethod && (this._points = this._curveMethod(this._points));
+        this._points = this._curveMethod(this._points, this._tension);
 
         // 这里既然是面积图，那么就得多两个点来确定面积
         var len = this._points.unshift({
@@ -37,23 +37,15 @@ define(["require", "../common/util", "../canvas/helper", "./data", "../Tween/src
         helper.retinaScale(this._context);
 
         // 遍历所有的points，然后开始渲染整个线条
-        this._animationDuration != null
-            ? renderAreaInAnimate(this, this._points, this._context, styles)
-            : readerArea(this._points, this._context, styles);
+        renderAreaInAnimate(this, this._points, this._context, styles)
 
         return this;
     }
 
-    var defaultStyles = {
-        lineWidth: 1,
-        strokeStyle: "#000000",
-        fillStyle: "#ffff00"
-    };
-
     function readerArea(points, context, styles, bounds) {
         context.save();
 
-        setStyles(context, styles);
+        helper.setContextStyles(context, styles);
 
         context.beginPath();
 
@@ -79,19 +71,6 @@ define(["require", "../common/util", "../canvas/helper", "./data", "../Tween/src
         context.fill();
         context.closePath();
         context.restore();
-    }
-
-    // 添加canvas的样式
-    function setStyles(context, styles) {
-        if (!util.isObject(styles)) {
-            styles = {}
-        }
-
-        styles = util.merge(styles, defaultStyles);
-
-        Object.keys(styles).forEach(function (item) {
-            context[item] = styles[item];
-        });
     }
 
     function renderAreaInAnimate(self, points, context, styles) {
@@ -123,6 +102,7 @@ define(["require", "../common/util", "../canvas/helper", "./data", "../Tween/src
                     y: points[points.length - 1].y
                 });
 
+                // 覆盖住刚才绘制的图形
                 if( lastPoints ) {
                     readerArea(lastPoints, context, {
                         strokeStyle: "#ffffff",
@@ -169,7 +149,6 @@ define(["require", "../common/util", "../canvas/helper", "./data", "../Tween/src
     return {
         render: render,
         readerArea: readerArea,
-        setStyles: setStyles,
         getBounds: getBounds
     };
 

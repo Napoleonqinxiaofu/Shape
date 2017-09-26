@@ -162,7 +162,8 @@ define(function (require) {
     }
 
     return {
-        curve: curve
+        curve: curve,
+        cardinal: cardinalCurve
     };
 
 });

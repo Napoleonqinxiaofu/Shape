@@ -4,77 +4,58 @@
 define(["require", "../common/util", "../canvas/helper", "../Tween/src/Animate/Tween", "./renderArea"],
     function (require) {
 
-    var util = require("../common/util");
-    var helper = require("../canvas/helper");
+        var util = require("../common/util");
+        var helper = require("../canvas/helper");
 
-    var dataUtil = require("./data");
+        var dataUtil = require("./data");
 
-    var Tween = require("../Tween/src/Animate/Tween");
+        var Tween = require("../Tween/src/Animate/Tween");
 
-    var areaRender = require("./renderArea");
+        var areaRender = require("./renderArea");
 
-    function render(context, styles) {
-        if (!this._context && context) {
-            this._context = context;
+        function render(context, styles) {
+            if (!this._context && context) {
+                this._context = context;
+            }
+
+            // deal data
+            dataUtil.dealData(this, this._points, this._dataAccessor);
+
+            // 将原始的几个点保存下来，方便绘制标识符的时候使用
+            this._symbolPoints = util.clone(this._points);
+
+            this._points = this._curveMethod(this._points, this._tension);
+
+            helper.retinaScale(this._context);
+
+            renderLineInAnimation(this, this._points, this._context, styles)
+
+            return this;
         }
 
-        // deal data
-        dataUtil.dealData(this, this._points, this._dataAccessor);
+        function renderLine(points, context, styles) {
+            context.save();
 
-        this._points = this._curveMethod(this._points, this._tension);
+            helper.setContextStyles(context, styles);
 
-        helper.retinaScale(this._context);
+            context.beginPath();
 
-        // 遍历所有的points，然后开始渲染整个线条
-        this._animationDuration != null
-            ? renderLineInAnimation(this, this._points, this._context, styles)
-            : renderLine(this._points, this._context, styles);
+            var i = 1,
+                len = points.length,
+                point = points[0];
 
-        return this;
-    }
+            context.moveTo(point.x, point.y);
+            for (; i < len; i++) {
+                point = points[i];
+                context.lineTo(point.x, point.y);
+            }
 
-    var defaultStyles = {
-        lineWidth: 1,
-        strokeStyle: "#000000",
-        fillStyle: "#ffffff"
-    };
-
-    function renderLine(points, context, styles) {
-        context.save();
-
-        setStyles(context, styles);
-
-        context.beginPath();
-
-        var i = 1,
-            len = points.length,
-            point = points[0];
-
-        context.moveTo(point.x, point.y);
-        for (; i < len; i++) {
-            point = points[i];
-            context.lineTo(point.x, point.y);
+            context.stroke();
+            context.closePath();
+            context.restore();
         }
 
-        context.stroke();
-        context.closePath();
-        context.restore();
-    }
-
-    // 添加canvas的样式
-    function setStyles(context, styles) {
-        if (!util.isObject(styles)) {
-            styles = {}
-        }
-
-        styles = util.merge(styles, defaultStyles);
-
-        Object.keys(styles).forEach(function (item) {
-            context[item] = styles[item];
-        });
-    }
-
-    function renderLineInAnimation(self, points, context, styles) {
+        function renderLineInAnimation(self, points, context, styles) {
             var bounds = areaRender.getBounds(points),
                 minX = bounds.minX,
                 maxX = bounds.maxX,
@@ -94,11 +75,11 @@ define(["require", "../common/util", "../canvas/helper", "../Tween/src/Animate/T
                 .duration(duration)
                 .ease(mode)
                 .eachFrame(function (obj) {
-                    var newPoints = points.filter(function(p) {
+                    var newPoints = points.filter(function (p) {
                         return p.x < obj.x;
                     });
 
-                    if( lastPoints ) {
+                    if (lastPoints) {
                         renderLine(lastPoints, context, {
                             strokeStyle: "#ffffff",
                             fillStyle: "#ffffff",
@@ -111,8 +92,8 @@ define(["require", "../common/util", "../canvas/helper", "../Tween/src/Animate/T
                     renderLine(newPoints, context, styles);
                 })
                 .start();
-    }
+        }
 
-    return render;
+        return render;
 
-});
+    });

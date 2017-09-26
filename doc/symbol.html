@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        canvas{
+            border:1px solid gray;
+        }
+    </style>
+    <script src="../src/require.js"></script>
+</head>
+<body>
+<canvas height="250" width="400"></canvas>
+</body>
+<script>
+
+    require.config({
+        baseUrl: "../src/",
+        paths: {
+        }
+    });
+
+    require(['require', 'index', 'Scale/Linear/linear', "common/colors"], function(require) {
+
+        var Shape = require("index");
+        var linear = require("Scale/Linear/linear");
+        var Color = require("common/colors");
+
+        var symbol = Shape.Symbol();
+        var context = document.querySelector("canvas").getContext("2d");
+
+        var colors = Color.category20a(),
+            colorsB = Color.category20b(),
+            colorsC = Color.category20c();
+
+        symbol.context(context);
+
+        colors.forEach(function(c, i) {
+            (function(c, i) {
+                symbol.circle(15 * i + 5, 10, 5, {
+                    fillStyle: c
+                });
+
+                symbol.square(15 * i, 20, 10, 10, {
+                    fillStyle: colorsB[i]
+                });
+
+                symbol.cross(15 * i + 5, 40, 10, {
+                    strokeStyle: colorsC[i],
+                    lineWidth: 4
+                });
+
+                symbol.diamond(15 * i + 5, 60, 4, 5, {
+                    fillStyle: colorsC[i]
+                });
+
+                symbol.star(15 * i + 5, 80, 2, 5, {
+                    fillStyle: colorsB[i]
+                });
+
+                symbol.triangle(15 * i + 5, 100, 10, {
+                    fillStyle: colorsB[i]
+                });
+            }(c, i));
+        })
+
+    });
+
+</script>
+</html>

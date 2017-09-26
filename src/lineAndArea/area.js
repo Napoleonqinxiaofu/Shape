@@ -11,7 +11,6 @@ define(["require", "../common/defaultAccessor", "./line", "./renderArea", "./bas
         var Line = require("./line");
         var render = require("./renderArea");
         var baseY = require("./baseY");
-        var animateRalative = require("./animateRalative");
 
         function Area() {
             if (this instanceof Area) {
@@ -24,6 +23,8 @@ define(["require", "../common/defaultAccessor", "./line", "./renderArea", "./bas
         }
 
         Area.prototype = util.clone(Line.prototype);
+        Area.prototype.render = render.render;
+        Area.prototype.baseY = baseY;
 
         Area.prototype.init = function () {
             // 初始化所有的属性
@@ -35,21 +36,23 @@ define(["require", "../common/defaultAccessor", "./line", "./renderArea", "./bas
             this._originData = null;
             this._context = null;
 
-            this._curveMethod = null;
+            // 在这里初始化一下，this._curveMethod，直接调用curve方法，
+            // 因为在该方法里面对这个属性进行了赋值
+            this._curveMethod = this.curve(0);
 
             // 默认的存取器什么都不做，只是返回数据本身
             this._xAccessor = defaultAccessor();
             this._yAccessor = defaultAccessor();
             this._dataAccessor = defaultAccessor();
 
-            this._animationDuration = null;
+            this._animationDuration = 0;
             this._easeMode = "easeInOutCirc";
+
+            // 默认是折线
+            this._tension = 0;
 
             return this;
         };
-
-        Area.prototype.render = render.render;
-        Area.prototype.baseY = baseY;
 
         return Area;
 

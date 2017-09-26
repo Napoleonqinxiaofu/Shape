@@ -2,6 +2,7 @@
  * Create by xiaofu.qin {2017/9/22}
  */
 define(function (require) {
+    var util = require("../common/util");
 
     // 什么视网膜的问题来着，在Chart.js里面使用到
     function retinaScale(context, forceRatio) {
@@ -34,7 +35,7 @@ define(function (require) {
             return false;
         }
 
-            canvas.height = height * pixelRatio;
+        canvas.height = height * pixelRatio;
         canvas.width = width * pixelRatio;
         context.scale(pixelRatio, pixelRatio);
 
@@ -50,8 +51,19 @@ define(function (require) {
         canvas.pixelRatio = pixelRatio;
     }
 
+    function setContextStyles(context, styles) {
+        styles = util.isObject(styles) ? styles : null;
+        if (!(context && context.canvas) || !styles) {
+            return;
+        }
+        for (var key in styles) {
+            context[key] = styles[key];
+        }
+    }
+
     return {
-        retinaScale: retinaScale
+        retinaScale: retinaScale,
+        setContextStyles: setContextStyles
     };
 
 });

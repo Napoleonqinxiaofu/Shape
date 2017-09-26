@@ -18,14 +18,9 @@ define(["require", "../lineAndArea/renderArea", "../Tween/src/Animate/Tween"],
                 styles = context;
             }
 
-            var points = calcControlPoints(this._startAngle,
-                this._endAngle, this._innerRadius, this._outerRadius);
-
             helper.retinaScale(this._context);
 
-            this._animationDuration != null
-                ? renderSectorInAnimate(this, styles)
-                : readerSector(this, points, this._startAngle, this._endAngle, styles);
+            renderSectorInAnimate(this, styles);
 
             return this;
         }
@@ -77,7 +72,7 @@ define(["require", "../lineAndArea/renderArea", "../Tween/src/Animate/Tween"],
 
             context.save();
 
-            areaRender.setStyles(context, styles);
+            helper.setContextStyles(context, styles);
 
             context.translate(centers[0], centers[1]);
 

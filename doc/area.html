@@ -44,7 +44,7 @@
         areaIns.context(context);
 
         areaIns.curve().x(xScale).y(yScale)
-            .baseY(90).animate(2000).ease("easeOutBounce")
+            .baseY(90).curve(0.9).animate(2000);
 
         areaIns.render({
             lineWidth: 0

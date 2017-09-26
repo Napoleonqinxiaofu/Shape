@@ -57,8 +57,8 @@ define(function (require) {
         this._centroid = null;
         this._context = null;
         this._centers = [0, 0];
-        this._animation = false;
         this._easeMode = "easeOutBounce";
+        this._animationDuration = 0;
 
         return this;
     };

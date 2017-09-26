@@ -7,12 +7,13 @@ define(function (require) {
     var defaultAccessor = require("../common/defaultAccessor");
 
     var dataTool = require("./data");
-    var xAccessor = require("./xAccessor");
-    var yAccessor = require("./yAccessor");
     var curveTool = require("./curve");
     var context = require("./context");
     var render = require("./renderLine");
-    var animateRalative = require("./animateRalative");
+    var animateRelative = require("./animateRelative");
+    var accessorObj = require("./accessor");
+
+    var Symbol = require("../symbol/index");
 
     // 定义一个构造函数
     function Line() {
@@ -28,13 +29,13 @@ define(function (require) {
     Line.prototype = {
         constructor: Line,
         data: dataTool.acceptData,
-        x: xAccessor,
-        y: yAccessor,
+        x: accessorObj.xAccessor,
+        y: accessorObj.yAccessor,
         curve: curveTool.curve,
         context: context,
         render: render,
-        animate: animateRalative.animate,
-        ease: animateRalative.ease
+        animate: animateRelative.animate,
+        ease: animateRelative.ease
     };
 
     Line.prototype.init = function() {
@@ -50,7 +51,7 @@ define(function (require) {
         this._curveMethod = this.curve(false);
         this._tension = 0;
 
-        this._animationDuration = null;
+        this._animationDuration = 0;
         this._easeMode = "easeInOutCirc";
 
         // 默认的存取器什么都不做，只是返回数据本身
