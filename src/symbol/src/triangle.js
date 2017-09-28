@@ -25,7 +25,6 @@ define(["require", "../../canvas/helper"], function (require) {
             x: x - length / 2,
             y: y + length * sin60 / 3
         });
-        console.log(points)
 
         return points;
 

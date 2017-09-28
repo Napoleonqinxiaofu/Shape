@@ -43,9 +43,13 @@
 
         lineIns.context(document.querySelector("canvas").getContext("2d"));
 
-        lineIns.curve(0).x(xScale).y(yScale).animate(2000);
+        lineIns.curve(0).x(xScale).y(yScale).animate(500);
 
-        lineIns.render();
+        lineIns.symbol("diamond");
+
+        lineIns.render({
+            strokeStyle: "#de9ed6"
+        });
     });
 
 </script>

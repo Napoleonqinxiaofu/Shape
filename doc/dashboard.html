@@ -26,31 +26,15 @@
         var Shape = require("index");
         var linear = require("Scale/Linear/linear");
 
-        var areaIns = Shape.Area();
+        var dashboard = Shape.Dashboard();
 
         var context = document.querySelector("canvas").getContext("2d");
         context.translate(100, 100)
 
-        areaIns.data([
-            {x: 10, y: 10},
-            {x: 20, y: 80},
-            {x: 60, y: 10},
-            {x: 90, y: 60}
-        ]);
+        dashboard.data([
+            {value: 23}
+        ])._layout();
 
-        var xScale = linear().domain([0, 100]).range([0, 400]);
-        var yScale = linear().domain([100, 0]).range([0, 200]);
-
-        areaIns.context(context);
-
-        areaIns.curve().x(xScale).y(yScale)
-            .baseY(90).curve(0.9).animate(2000);
-
-        areaIns.render({
-            lineWidth: 0,
-            fillStyle: "#5254a3",
-            strokeStyle: "#5254a3"
-        });
     });
 
 </script>

@@ -5,7 +5,7 @@ define(function () {
 
     return function (accessor) {
         if (typeof accessor !== "function") {
-            accessor = function(index, item) {
+            accessor = function(item, index) {
                 return +item;
             }
         }

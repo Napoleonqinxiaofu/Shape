@@ -14,7 +14,7 @@ define(function (require) {
             value;
 
         while (++i < len) {
-            value = accessor(i, array[i]);
+            value = accessor(array[i], i);
 
             if (value == null || array[i] == null || isNaN(value)) {
                 continue;

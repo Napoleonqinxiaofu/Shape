@@ -35,10 +35,16 @@ define(function (require) {
         context: context,
         render: render,
         animate: animateRelative.animate,
-        ease: animateRelative.ease
+        ease: animateRelative.ease,
+        symbol: function (type, color) {
+            this._symbolType = Symbol.types[type] ? type : "circle";
+            this._symbol = Symbol();
+            this._symbolColor = color || this._symbolColor;
+            return this;
+        }
     };
 
-    Line.prototype.init = function() {
+    Line.prototype.init = function () {
         // 初始化所有的属性
 
         // 所有的数据点
@@ -58,6 +64,12 @@ define(function (require) {
         this._xAccessor = defaultAccessor();
         this._yAccessor = defaultAccessor();
         this._dataAccessor = defaultAccessor();
+
+        // 标识符，如果不为null就会渲染
+        this._symbolType = "circle";
+        this._symbol = null;
+        // 默认标识符颜色
+        this._symbolColor = "#bd9e39";
 
         return this;
     };
