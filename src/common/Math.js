@@ -113,7 +113,7 @@ define(function () {
         return (arg1 + arg2) / m;
     }
 
-    function numToRdian(num) {
+    function numToRadian(num) {
         num = +num;
         if (isNaN(num)) {
             num = 0;
@@ -126,7 +126,7 @@ define(function () {
         accAdd: accAdd,
         accSub: accSub,
         accMul: accMul,
-        numToRdian: numToRdian
+        numToRadian: numToRadian
     };
 
 });

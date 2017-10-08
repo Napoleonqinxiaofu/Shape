@@ -7,7 +7,7 @@ define(function (require) {
 
     function startAngle(num) {
 
-        this._startAngle = mathUtil.numToRdian(num);
+        this._startAngle = mathUtil.numToRadian(num);
 
         return this;
     }

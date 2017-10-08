@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        canvas{
+            border:1px solid gray;
+        }
+    </style>
+    <script src="../src/require.js"></script>
+</head>
+<body>
+<canvas height="250" width="400"></canvas>
+</body>
+<script>
+
+    require.config({
+        baseUrl: "../src/",
+        paths: {
+        }
+    });
+
+    require(['require', 'index', 'Scale/Linear/linear', "dashboard/indicator/index"], function(require) {
+
+        var Shape = require("index");
+        var linear = require("Scale/Linear/linear");
+        var Indicator = require("dashboard/indicator/index");
+
+        var areaIns = Shape.Area();
+
+        var context = document.querySelector("canvas").getContext("2d");
+
+        var indicatorIns = Indicator();
+
+        indicatorIns.context(context)
+            .angle(300)
+            .length(30, 10)
+            .center(100, 100)
+            .animate(2000)
+            .render();
+//
+//        var start = 0,
+//            step = 30,
+//            x = 10,
+//            y = 100;
+//        var timer = setInterval(function () {
+//            start += 30;
+//            if( start > 360 ) {
+//                window.clearInterval(timer);
+//                return;
+//            }
+//            indicatorIns
+//                .center((x += 10), y)
+//                .angle(start).render({
+//                fillStyle: "blue",
+//                lineWidth: 0
+//            });
+//        }, 400)
+
+    });
+
+</script>
+</html>
